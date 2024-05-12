@@ -8,10 +8,9 @@ Generate text using LLMs with customizable prompts FOR CODESHELL LLM, base gen.n
 
 [![Local LLMs in Neovim: gen.nvim](https://user-images.githubusercontent.com/1009936/273126287-7b5f2b40-c678-47c5-8f21-edf9516f6034.jpg)](https://youtu.be/FIZt7MinpMY?si=KChSuJJDyrcTdYiM)
 
-
 ## Requires
 
-- [Ollama](https://ollama.ai/) with an appropriate model, e.g. [`mistral`](https://ollama.ai/library/mistral) or [`zephyr`](https://ollama.ai/library/zephyr) (customizable)
+- [llama_cpp_for_codeshell](https://github.com/WisdomShell/llama_cpp_for_codeshell) with an appropriate model, e.g. 
 - [Curl](https://curl.se/)
 
 ## Install
@@ -22,7 +21,7 @@ Example with Lazy
 
 ```lua
 -- Minimal configuration
-{ "David-Kunz/gen.nvim" },
+{ "charlie-xing/codeshell_gen" },
 
 ```
 
@@ -30,16 +29,23 @@ Example with Lazy
 
 -- Custom Parameters (with defaults)
 {
-    "David-Kunz/gen.nvim",
+    "charlie-xing/codeshell_gen",
     opts = {
-        model = "mistral", -- The default model to use.
+        model = "codeshell", -- The default model to use.
         display_mode = "float", -- The display mode. Can be "float" or "split".
         show_prompt = false, -- Shows the Prompt submitted to Ollama.
         show_model = false, -- Displays which model you are using at the beginning of your chat session.
         no_auto_close = false, -- Never closes the window automatically.
-        init = function(options) pcall(io.popen, "ollama serve > /dev/null 2>&1 &") end,
-        -- Function to initialize Ollama
-        command = "curl --silent --no-buffer -X POST http://localhost:11434/api/generate -d $body",
+        command = "curl --silent --no-buffer -X POST http://localhost:8080/completion -d $body",
+        model_options = {
+            n_predict = 8192,
+            temperature = 0.1,
+            repetition_penalty = 1.2,
+            top_k = 40,
+            top_p = 0.95,
+            stream = true,
+            stop = {"|<end>|", "|end|", "<|endoftext|>", "## human"}
+        },
         -- The command for the Ollama service. You can use placeholders $prompt, $model and $body (shellescaped).
         -- This can also be a lua function returning a command string, with options as the input parameter.
         -- The executed command must return a JSON object with { response, context }
@@ -59,8 +65,6 @@ require('gen').setup({
   -- same as above
 })
 ```
-
-
 
 ## Usage
 
@@ -97,6 +101,7 @@ require('gen').select_model()
 All prompts are defined in `require('gen').prompts`, you can enhance or modify them.
 
 Example:
+
 ```lua
 require('gen').prompts['Elaborate_Text'] = {
   prompt = "Elaborate the following text:\n$text",
@@ -112,10 +117,10 @@ require('gen').prompts['Fix_Code'] = {
 You can use the following properties per prompt:
 
 - `prompt`: (string | function) Prompt either as a string or a function which should return a string. The result can use the following placeholders:
-   - `$text`: Visually selected text
-   - `$filetype`: Filetype of the buffer (e.g. `javascript`)
-   - `$input`: Additional user input
-   - `$register`: Value of the unnamed register (yanked text)
+  - `$text`: Visually selected text
+  - `$filetype`: Filetype of the buffer (e.g. `javascript`)
+  - `$input`: Additional user input
+  - `$register`: Value of the unnamed register (yanked text)
 - `replace`: `true` if the selected text shall be replaced with the generated output
 - `extract`: Regular expression used to extract the generated result
 - `model`: The model to use, e.g. `zephyr`, default: `mistral`
