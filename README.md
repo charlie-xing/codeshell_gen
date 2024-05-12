@@ -1,6 +1,6 @@
-# gen.nvim
+# codeshell_gen
 
-Generate text using LLMs with customizable prompts
+Generate text using LLMs with customizable prompts FOR CODESHELL LLM, base gen.nvim.
 
 ![gen_nvim](https://github.com/David-Kunz/gen.nvim/assets/1009936/79f17157-9327-484a-811b-2d71ceb8fbe3)
 
