@@ -128,7 +128,7 @@ end
 M.exec = function(options)
     local opts = vim.tbl_deep_extend("force", M, options)
 
-    if type(opts.init) == 'function' then opts.init(opts) end
+    -- if type(opts.init) == 'function' then opts.init(opts) end
 
     curr_buffer = vim.fn.bufnr("%")
     local mode = opts.mode or vim.fn.mode()
