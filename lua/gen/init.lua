@@ -202,8 +202,8 @@ M.exec = function(options)
         if string.find(opts.model,"codeshell") then
             local body = {
                 prompt = "<|user|>\n"..prompt.."<|assistant|>\n",
-                n_predict = 2048,
-                temperature = 0.8,
+                n_predict = 8192,
+                temperature = 0.2,
                 repetition_penalty = 1.2,
                 top_k = 40,
                 top_p = 0.95,
