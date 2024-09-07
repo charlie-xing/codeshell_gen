@@ -4,7 +4,8 @@ return {
   Summarize = { prompt = "对下列文字进行总结:\n$text" },
   Ask = { prompt = "关于以下文本, $input:\n$text" },
   Format_code = {
-    prompt = "Format code in $filetype language style,To ensure readability, each line should have no more than 80 characters:\n$text",
+    prompt =
+    "Format code in $filetype language style,To ensure readability, each line should have no more than 80 characters:\n$text",
     replace = true,
   },
   Enhance_Grammar_Spelling = {
@@ -35,18 +36,22 @@ return {
   },
   Tra_En = {
     prompt =
-    "Just translate following text to english,only output the final result english text without additional quotes:\n'''$text'''"
+    "Just translate following text to english,only output the final result english text without additional quotes:\n'''$text'''",
   },
   Tra_Cn = {
-    prompt = "只完成翻译下面的文字为中文,only output the final text without additional quotes add text around it:\n'''$text'''"
+    prompt = "只完成翻译下面的文字为中文,only output the final text without additional quotes add text around it:\n'''$text'''",
   },
   Tra_jp = {
-    prompt = "翻译下面的文字为日文:\n'''$text'''"
+    prompt = "翻译下面的文字为日文:\n'''$text'''",
   },
   Tra_ru = {
-    prompt = "翻译下面的文字为俄文:\n'''$text'''"
+    prompt = "翻译下面的文字为俄文:\n'''$text'''",
   },
   Call_en = {
-    prompt = "定义一个$filetype语言的变量:\n'''$text'''"
+    prompt = "定义一个$filetype语言的变量:\n'''$text'''",
+  },
+  Gen_comment = {
+    prompt = "根据$filetype，对这句话进行注释格式修改，然后生成$filetype类型的编程实现代码，完成下面文本要求的功能,只输出代码，不做解释和格式化，保证代码可用:\n'''$text'''",
+    replace = true,
   },
 }
